@@ -17,12 +17,43 @@ use Illuminate\Http\Request;
 //    return $request->user();
 //});
 
+
 $api = app(Dingo\Api\Routing\Router::class);
 
 
 //dd($api);
 $api->version('v1', ['namespace' => '\App\Http\Controllers'], function ($api) {
-    $api->get('fist','AdminController@test');
+
+    $api->post('/user/register','AdminController@register');
+    $api->post('/user/login','AdminController@login');
+
+    $api->group(['middleware' => 'jwt.auth'], function ($api) {
+
+        $api->post('/user/create/parcel','AdminController@createParcel');
+        $api->put('/user/updateParcelDestination/{id}','ParcelController@updateDestination');
+        $api->put('/user/cancelParcelDelivery/{id}','ParcelController@cancelDelivery');
+        $api->put('/user/updateEnrouteDelivery/{id}','ParcelController@enrouteDelivery');
+        $api->put('/user/updateCompleteDelivery/{id}','ParcelController@completeDelivery');
+        $api->get('/user/getParcelDetails/{id}','ParcelController@parcelDetail');
+    });
+
+
+
+//    $api->post('user/register', function (){
+//        return "ok"
+//    });
+
+//    $api->get('', 'APIOthersController@categories');
+//    $api->prefix('user')->group(function ($api) {
+//        $api->get('regisration','AdminController@test');
+//
+//    });
+
+//    $api->prefix('user')->group(function ($api) {
+//        $api->get('regisration','AdminController@test');
+//
+//    });
+
 //
 //    $api->get('doc', 'HomeController@doc');
 //
