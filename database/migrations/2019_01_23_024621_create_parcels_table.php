@@ -20,8 +20,7 @@ class CreateParcelsTable extends Migration {
 			$table->dateTime('sent_on')->nullable();
 			$table->dateTime('deleivered_on')->nullable();
 			$table->boolean('status')->nullable()->default(0)->comment('0=pending
-1=enroute
-2=delivered');
+1=enroute 2=delivered 3=cancelled');
 			$table->string('from_address', 50)->nullable();
 			$table->string('to_address', 50)->nullable();
 			$table->timestamps();

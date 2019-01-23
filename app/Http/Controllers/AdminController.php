@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateParcel;
 use App\Http\Requests\CreateUser;
 use App\Models\AdminUser;
+use App\Transformers\AdminUserTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -72,6 +73,7 @@ class AdminController extends Controller
         $input['password'] = Hash::make($input['password']);
 
         $user = AdminUser::create($input);
+        $user = (new AdminUserTransformer())->transform($user);
         return $this->showOne($user);
     }
 
@@ -198,7 +200,5 @@ class AdminController extends Controller
         return $this->showOne($user->parcels);
 
     }
-
-
 
 }

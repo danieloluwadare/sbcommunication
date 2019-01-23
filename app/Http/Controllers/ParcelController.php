@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parcel;
+use App\Transformers\ParcelTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -47,7 +48,8 @@ class ParcelController extends Controller
     {
         Parcel::where('id', $id)->update(['to_address'=> $request->to_address]);
         $parcel = Parcel::where('id', $id)->first();
-         return $this->showOne($parcel);
+        $parcel = (new ParcelTransformer())->transform($parcel);
+        return $this->showOne($parcel);
     }
 
     /**
@@ -87,6 +89,7 @@ class ParcelController extends Controller
     {
         Parcel::where('id', $id)->update(['status'=> 4]);
         $parcel = Parcel::where('id', $id)->first();
+        $parcel = (new ParcelTransformer())->transform($parcel);
         return $this->showOne($parcel);
     }
 
@@ -128,6 +131,7 @@ class ParcelController extends Controller
     {
         Parcel::where('id', $id)->update(['status'=> 1]);
         $parcel = Parcel::where('id', $id)->first();
+        $parcel = (new ParcelTransformer())->transform($parcel);
         return $this->showOne($parcel);
     }
 
@@ -170,6 +174,7 @@ class ParcelController extends Controller
     {
         Parcel::where('id', $id)->update(['status'=> 2, 'delivered_on' => Carbon::now()]);
         $parcel = Parcel::where('id', $id)->first();
+        $parcel = (new ParcelTransformer())->transform($parcel);
         return $this->showOne($parcel);
     }
 
@@ -210,7 +215,8 @@ class ParcelController extends Controller
     public function parcelDetail($id)
     {
         Parcel::where('id', $id)->update(['status'=> 4]);
-        $parcel = Parcel::with('admin_user')->where('id', $id)->first();
+        $parcel = Parcel::where('id', $id)->first();
+        $parcel = (new ParcelTransformer())->transform($parcel);
         return $this->showOne($parcel);
     }
 
